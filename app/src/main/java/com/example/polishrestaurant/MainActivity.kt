@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navHostFragmentContainer) as NavHostFragment
 
         val navController = navHostFragment.navController
-        binding.bottomNavigationView.setupWithNavController
+        binding.bottomNavigationView.setupWithNavController(navController)
 
 
     }

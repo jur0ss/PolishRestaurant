@@ -3,6 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination=""
-
+    app:startDestination="@id/startFragment"
     >
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.polishrestaurant.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_start_fragment_to_menuChoiceFragment"
+            app:destination="@id/menuChoiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuChoiceFragment"
+        android:name="com.example.polishrestaurant.MenuChoiceFragment"
+        android:label="fragment_menu_choice"
+        tools:layout="@layout/fragment_menu_choice" >
+        <action
+            android:id="@+id/action_menuChoiceFragment_to_readyMealFragment"
+            app:destination="@id/readyMealFragment" />
+        <action
+            android:id="@+id/action_menuChoiceFragment_to_customMealFragment"
+            app:destination="@id/customMealFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/readyMealFragment"
+        android:name="com.example.polishrestaurant.ReadyMealFragment"
+        android:label="fragment_ready_meal"
+        tools:layout="@layout/fragment_ready_meal" >
+        <action
+            android:id="@+id/action_readyMealFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customMealFragment"
+        android:name="com.example.polishrestaurant.CustomMealFragment"
+        android:label="fragment_custom_meal"
+        tools:layout="@layout/fragment_custom_meal" >
+        <action
+            android:id="@+id/action_customMealFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.example.polishrestaurant.SummaryFragment"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" />
+</navigation>
