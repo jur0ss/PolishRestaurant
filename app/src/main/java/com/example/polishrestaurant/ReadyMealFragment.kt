@@ -1,10 +1,13 @@
 package com.example.polishrestaurant
 
+import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.example.polishrestaurant.databinding.FragmentReadyMealBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,6 +21,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ReadyMealFragment : Fragment() {
+
+    private lateinit var soupSpinner: Spinner
+    private lateinit var mainDishSpinner: Spinner
+    private lateinit var drinkSpinner: Spinner
 
     private var _binding: FragmentReadyMealBinding? = null
     private val binding get() = _binding!!
@@ -45,7 +52,43 @@ class ReadyMealFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        _binding = FragmentReadyMealBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.soupSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.simple_spinner_item,
+            soupsList.map { "${it.name} - ${it.price.toInt()} zł" }
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        binding.mainDishSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            mainDishesList.map { "${it.name} - ${it.price.toInt()} zł" }
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        binding.drinkSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            drinksList.map { "${it.name} - ${it.price.toInt()} zł" }
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        val selectedSoup = soupsList[binding.soupSpinner.selectedItemPosition]
+        val selectedMainDish = mainDishesList[binding.mainDishSpinner.selectedItemPosition]
+        val selectedDrink = drinksList[binding.drinkSpinner.selectedItemPosition]
+
+        val total = selectedSoup.price + selectedMainDish.price + selectedDrink.price
+        binding.totalTextView.text = "Cena całkowita: $total zł"
     }
 
     companion object {
