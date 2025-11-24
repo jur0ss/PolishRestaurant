@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuChoiceFragment">
+    tools:context=".MenuChoiceFragment"
+    android:orientation="vertical"
+    android:background="#7dc479">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+        <Button
+            android:id="@+id/readyMealButton"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:text="Gotowe dania"
+            android:layout_gravity="center"
+            android:backgroundTint="#1a401a"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/customMealButton"
+            android:height="75dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#1bc71c"
+            android:text="Komponuj sam"
+            android:textSize="15sp"/>
+
+
+</LinearLayout>
