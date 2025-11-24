@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.polishrestaurant.databinding.FragmentStartBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,6 +19,17 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class StartFragment : Fragment() {
+
+    private var _binding: FragmentStartBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,7 +47,16 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start, container, false)
+        _binding = FragmentStartBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.startOrderButton.setOnClickListener {
+            findNavController().navigate(R.id.action_start_fragment_to_menuChoiceFragment)
+        }
     }
 
     companion object {

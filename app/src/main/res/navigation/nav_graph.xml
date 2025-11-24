@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_start" >
         <action
             android:id="@+id/action_start_fragment_to_menuChoiceFragment"
-            app:destination="@id/menuChoiceFragment" />
+            app:destination="@id/menuChoiceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/menuChoiceFragment"
