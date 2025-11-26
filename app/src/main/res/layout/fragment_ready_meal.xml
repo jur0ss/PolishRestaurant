@@ -48,4 +48,14 @@
         android:gravity="center"
         />
 
+    <Button
+        android:id="@+id/placeOrderButton"
+        android:text="Dodaj do zamówienia"
+        android:backgroundTint="#2c532a"
+        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_gravity="center"
+        />
+
+
 </LinearLayout>

@@ -1,13 +1,15 @@
 package com.example.polishrestaurant
 
-import android.R
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.navigation.fragment.findNavController
 import com.example.polishrestaurant.databinding.FragmentReadyMealBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -61,7 +63,7 @@ class ReadyMealFragment : Fragment() {
 
         binding.soupSpinner.adapter = ArrayAdapter(
             requireContext(),
-            R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_item,
             soupsList.map { "${it.name} - ${it.price.toInt()} zł" }
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -83,12 +85,37 @@ class ReadyMealFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        val selectedSoup = soupsList[binding.soupSpinner.selectedItemPosition]
-        val selectedMainDish = mainDishesList[binding.mainDishSpinner.selectedItemPosition]
-        val selectedDrink = drinksList[binding.drinkSpinner.selectedItemPosition]
+        fun updateTotal(){
+            val selectedSoup = soupsList[binding.soupSpinner.selectedItemPosition]
+            val selectedMainDish = mainDishesList[binding.mainDishSpinner.selectedItemPosition]
+            val selectedDrink = drinksList[binding.drinkSpinner.selectedItemPosition]
 
-        val total = selectedSoup.price + selectedMainDish.price + selectedDrink.price
-        binding.totalTextView.text = "Cena całkowita: $total zł"
+            val total = selectedSoup.price + selectedMainDish.price + selectedDrink.price
+            binding.totalTextView.text = "Cena całkowita: $total zł"
+        }
+
+        val listener = object: android.widget.AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                updateTotal()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        binding.soupSpinner.onItemSelectedListener = listener
+        binding.mainDishSpinner.onItemSelectedListener = listener
+        binding.drinkSpinner.onItemSelectedListener = listener
+
+        updateTotal()
+
+        binding.placeOrderButton.setOnClickListener {
+            findNavController().navigate(R.id.action_readyMealFragment_to_menuChoiceFragment)
+        }
+
     }
 
     companion object {
