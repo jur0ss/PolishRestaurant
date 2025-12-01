@@ -10,15 +10,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.polishrestaurant.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
 
-        lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -31,7 +31,5 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
-
-
     }
 }

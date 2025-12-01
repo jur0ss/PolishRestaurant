@@ -16,6 +16,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CustomMealFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class CustomMealFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -36,6 +37,7 @@ class CustomMealFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_custom_meal, container, false)
     }
+
 
     companion object {
         /**

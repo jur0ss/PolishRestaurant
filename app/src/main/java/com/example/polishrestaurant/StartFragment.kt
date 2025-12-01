@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.polishrestaurant.databinding.FragmentStartBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,7 +56,10 @@ class StartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.startOrderButton.setOnClickListener {
-            findNavController().navigate(R.id.action_start_fragment_to_menuChoiceFragment)
+
+            val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            bottomNav.selectedItemId = R.id.menuChoiceFragment
+
         }
     }
 

@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.polishrestaurant.databinding.FragmentReadyMealBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,9 +26,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class ReadyMealFragment : Fragment() {
 
-    private lateinit var soupSpinner: Spinner
-    private lateinit var mainDishSpinner: Spinner
-    private lateinit var drinkSpinner: Spinner
+    private val orderViewModel: OrderViewModel by activityViewModels()
 
     private var _binding: FragmentReadyMealBinding? = null
     private val binding get() = _binding!!
@@ -36,30 +36,23 @@ class ReadyMealFragment : Fragment() {
         _binding = null
     }
 
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         _binding = FragmentReadyMealBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNav.selectedItemId = R.id.menuChoiceFragment
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding.soupSpinner.adapter = ArrayAdapter(
             requireContext(),
@@ -85,38 +78,42 @@ class ReadyMealFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        fun updateTotal(){
-            val selectedSoup = soupsList[binding.soupSpinner.selectedItemPosition]
-            val selectedMainDish = mainDishesList[binding.mainDishSpinner.selectedItemPosition]
-            val selectedDrink = drinksList[binding.drinkSpinner.selectedItemPosition]
 
-            val total = selectedSoup.price + selectedMainDish.price + selectedDrink.price
-            binding.totalTextView.text = "Cena całkowita: $total zł"
-        }
-
-        val listener = object: android.widget.AdapterView.OnItemSelectedListener{
+        val listener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
-                view: View?,
+                v: View?,
                 position: Int,
                 id: Long
             ) {
-                updateTotal()
+                val soup = soupsList[binding.soupSpinner.selectedItemPosition]
+                val main = mainDishesList[binding.mainDishSpinner.selectedItemPosition]
+                val drink = drinksList[binding.drinkSpinner.selectedItemPosition]
+
+                orderViewModel.setSoup(soup)
+                orderViewModel.setMainDish(main)
+                orderViewModel.setDrink(drink)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
         binding.soupSpinner.onItemSelectedListener = listener
         binding.mainDishSpinner.onItemSelectedListener = listener
         binding.drinkSpinner.onItemSelectedListener = listener
 
-        updateTotal()
 
-        binding.placeOrderButton.setOnClickListener {
-            findNavController().navigate(R.id.action_readyMealFragment_to_menuChoiceFragment)
+        orderViewModel.currentTotal.observe(viewLifecycleOwner) { total ->
+            binding.totalTextView.text = "Cena całkowita: ${total.toInt()} zł"
         }
 
+
+        binding.placeOrderButton.setOnClickListener {
+            orderViewModel.confirmOrder()
+            findNavController().navigate(R.id.action_readyMealFragment_to_menuChoiceFragment)
+        }
     }
+
 
     companion object {
         /**
